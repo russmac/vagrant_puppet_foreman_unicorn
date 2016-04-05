@@ -1,0 +1,20 @@
+[main]
+logdir=/var/log/puppet
+vardir=/var/lib/puppet
+ssldir=/var/lib/puppet/ssl
+rundir=/var/run/puppet
+factpath=$vardir/lib/facter
+environmentpath = $confdir/environments
+reports=log,foreman
+
+[master]
+certname=<%= @fqdn %>
+ssl_client_header = HTTP_X_CLIENT_DN
+ssl_client_verify_header = HTTP_X_CLIENT_VERIFY
+external_nodes = /etc/puppet/node.rb
+node_terminus  = exec
+
+[agent]
+certname=<%= @hostname %>-agent
+server=<%= @fqdn %>
+environment=production

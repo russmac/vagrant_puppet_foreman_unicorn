@@ -1,0 +1,27 @@
+.idea
+*.gem
+*.rbc
+.bundle
+.config
+coverage
+InstalledFiles
+lib/bundler/man
+pkg
+rdoc
+spec/reports
+test/tmp
+test/version_tmp
+tmp
+
+# YARD artifacts
+.yardoc
+_yardoc
+doc/
+
+.vagrant
+puppet/modules/apt
+puppet/modules/postgresql
+puppet/modules/vcsrepo
+puppet/modules/concat
+puppet/modules/stdlib
+puppet/modules/unicorn

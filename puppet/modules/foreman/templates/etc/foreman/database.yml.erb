@@ -1,0 +1,10 @@
+<% @foreman_envs.each do |key,value| %>
+<%= key %>:
+  adapter: postgresql
+  database: <%= value['db_name'] %>
+  pool: 5
+  timeout: 5000
+  username: <%= value['db_user'] %>
+  password: <%= value['db_password'] %>
+  host: <%= value['db_host'] %>
+<% end %>

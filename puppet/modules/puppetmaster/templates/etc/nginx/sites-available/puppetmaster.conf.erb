@@ -1,0 +1,30 @@
+server {
+  listen 8140;
+  server_name <%= @hostname %>;
+  client_max_body_size 15M;
+
+  ssl on;
+  ssl_session_timeout 30s;
+  ssl_certificate /var/lib/puppet/ssl/certs/<%= @fqdn %>.pem;
+  ssl_certificate_key /var/lib/puppet/ssl/private_keys/<%= @fqdn %>.pem;
+  ssl_client_certificate /var/lib/puppet/ssl/ca/ca_crt.pem;
+  ssl_crl /var/lib/puppet/ssl/ca/ca_crl.pem;
+  ssl_ciphers ALL:!ADH:RC4+RSA:+HIGH:+MEDIUM:-LOW:-SSLv2:-EXP;
+  ssl_verify_client optional;
+
+  proxy_set_header Host $host;
+  proxy_set_header X-Real-IP $remote_addr;
+  proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+  proxy_set_header X-Client-Verify $ssl_client_verify;
+  proxy_set_header X-Client-DN $ssl_client_s_dn;
+  proxy_set_header X-SSL-Issuer $ssl_client_i_dn;
+  proxy_read_timeout 30;
+
+  root <%= @app_root %>/public;
+
+  location / {
+    proxy_pass http://unix:<%= @app_socket %>;
+    proxy_redirect off;
+  }
+
+}
