@@ -4,7 +4,7 @@ Clones your repo and immediately serves the manifests on bootstrapping running a
 
 If you want to manage the master/foreman configuration make sure the repo you configure in common.yaml contains these modules (and the includes).
 
-Your checked out repo is responsible for the first agent runs, use '<%= hostname %>-agent.<%= domain %>' foreman will produce vague errors if their is no node definition.
+Your checked out repo is responsible for the first agent runs, use '<%= hostname %>-agent.<%= domain %>' for your node definition foreman will produce vague errors if their is no node definition.
 
 Foreman puppet smart-proxy enabled features:
  - puppetca
@@ -22,17 +22,14 @@ x.x.x.x host.example.com host
 
 5. Browse to https://host.example.com where the build run will be displayed in the dashboard
 Foreman can take some time to process reports correctly after bootstrapping, The agent will eventually re-run or you can 'vagrant ssh' and 'puppet agent -t' to force.
+Use chrome for the nontrusted ssl cert nginx serves.
  
-6. Add the PuppetCA smart proxy using your chosen hostname https://host.example.com/smart_proxies:8443
-
-
-Puppet agent will continue to run the node against the checked out puppet code base which should include these classes.
-If you wish to reassign the agent node (the masters agent) in site.pp the certname is <%= @hostname %>-agent
- 
+6. Add the PuppetCA through the dashboard smart proxy using your chosen hostname in this format https://host.example.com:8443
 
 ## Bugs
-Foreman can behave differently on every vagrant up, Sometimes the dashboard requires one reload to run perfectly sometimes I have to force the puppet run sometimes I dont.
-Spurious stack exceptions can be seen in the foreman log.
+* Accessing dashboard after bootstrapping sometimes shows an error page, Until reloading page once and never showing it again. Searching for stack exception produces no well known issues.
+* Sometimes the first puppet run fails waiting for the agent to run again or vagrant ssh and forcing it resolves.
+* Spurious stack exceptions can be seen in the foreman log with no visible effect on operation.
 
 ### Why
 I wanted to custom craft something for my own use and at the same time understand Foreman better.
