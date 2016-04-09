@@ -2,6 +2,11 @@ class foreman::server::proxy(
 
 ) {
 
+  file{'/etc/sudoers.d/foreman-proxy':
+    mode    => '440',
+    source => 'puppet:///modules/foreman/etc/sudoers.d/foreman-proxy',
+  }
+
   file{'/etc/foreman-proxy/settings.yml':
     content => template('foreman/etc/foreman-proxy/settings.yml.erb'),
     notify => Service['foreman-proxy']

@@ -14,6 +14,7 @@ class foreman::server::config(
   file{'/etc/puppet/node.rb':
     owner => puppet,
     group => puppet,
+    mode  => 774,
     source => 'puppet:///modules/foreman/etc/puppet/node.rb',
   }
 

@@ -7,7 +7,7 @@ puppetmaster::worker_processes: 3
 puppetmaster::puppet_envs:
   production:
     remote: 'bitbucket.org'
-    repo: 'git@bitbucket.org:organisation/puppet3_envs.git'
+    repo: 'git@bitbucket.org:example/example.git'
     key: |
           -----BEGIN RSA PRIVATE KEY-----
           FAKEKEYFAKEKEYFAKEKEYFAKEKEYFAKEKEYFAKEKEYFAKEKEYFAKEKEYFAKEKEYF
@@ -40,14 +40,14 @@ puppetmaster::puppet_envs:
 foreman::worker_processes: 3
 foreman::backlog: 25
 foreman::timeout: 25
-foreman::postgresql_db_password: password
-foreman::foreman_db_password: password
+foreman::postgresql_db_password: CHANGEME
+foreman::foreman_db_password: CHANGEME
 foreman::user: foreman
-foreman::admin_password: foreman
+foreman::admin_password: CHANGEME
 foreman::rails_env: production
 foreman::foreman_envs:
   production:
     db_name: foreman_production
     db_user: foreman_production
-    db_password: password
+    db_password: CHANGEME
     db_host: localhost

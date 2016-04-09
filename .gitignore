@@ -17,7 +17,7 @@ tmp
 .yardoc
 _yardoc
 doc/
-
+puppet/hieradata
 .vagrant
 puppet/modules/apt
 puppet/modules/postgresql

@@ -1,8 +1,8 @@
 Vagrant.configure("2") do |config|
 
   # Add a host entry for this on your local system pointing at your chosen hostname
-  ip='192.168.1.2'
-  hostname='pm0.graphenic.com.au'
+  ip='192.168.2.2'
+  hostname='host.example.com'
 
   config.vm.provider "virtualbox" do |v|
     v.memory = 2048
