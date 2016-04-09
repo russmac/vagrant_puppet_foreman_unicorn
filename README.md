@@ -4,6 +4,8 @@ Clones your repo and immediately serves the manifests on bootstrapping running a
 
 If you want to manage the master/foreman configuration make sure the repo you configure in common.yaml contains these modules (and the includes).
 
+Your checked out repo is responsible for the first agent runs, use '<%= hostname %>-agent.<%= domain %>' foreman will produce vague errors if their is no node definition.
+
 Foreman puppet smart-proxy enabled features:
  - puppetca
 
