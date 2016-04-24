@@ -7,4 +7,4 @@ fi
 puppet module --modulepath puppet/modules install puppetlabs-apt
 puppet module --modulepath puppet/modules install puppetlabs-postgresql
 puppet module --modulepath puppet/modules install puppetlabs-vcsrepo
-git clone https://github.com/russmac/russmac-unicorn puppet/modules/unicorn
+git clone https://github.com/russmac/puppet-unicorn puppet/modules/unicorn
