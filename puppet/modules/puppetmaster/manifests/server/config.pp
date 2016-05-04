@@ -3,12 +3,6 @@ class puppetmaster::server::config(
   $app_socket,
 ){
 
-  file{ '/usr/share/puppet/ext/rack/tmp':
-    ensure => directory,
-    owner  => puppet,
-    group  => puppet,
-  }
-
   file{ '/etc/puppet/puppet.conf':
     ensure  => file,
     owner  => puppet,
