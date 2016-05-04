@@ -6,6 +6,10 @@ class puppetmaster::server(
 ) {
  require puppetmaster::apt
 
+  user{'puppet':
+    ensure => present,
+  }
+
   host{$::fqdn:
     ensure => present,
     ip     => '127.0.1.1',
