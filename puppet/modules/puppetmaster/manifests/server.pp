@@ -6,7 +6,7 @@ class puppetmaster::server(
 ) {
  require puppetmaster::apt
 
-  host{'pm0.graphenic.com.au':
+  host{$::fqdn:
     ensure => present,
     ip     => '127.0.1.1',
   }

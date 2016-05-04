@@ -17,23 +17,10 @@ class puppetmaster(
     unicorn::generate{  $app_name:
       user              => puppet,
       app_root          => $app_root,
-      app_socket        => $app_socket,
-      pid_file          => $pid_file,
       worker_processes  => $worker_processes,
       backlog           => $backlog,
       timeout           => $timeout,
-      require           => Class['puppetmaster::server']
-    }
-
-    exec{"PUP-5972 workaround $app_name":
-      command  => "systemctl enable $app_name",
-      unless   => "test -f /etc/rc3.d/S01$app_name",
-      require  => [Class['puppetmaster::server'],Unicorn::Generate[$app_name],Service['puppetmaster']],
-    } ->
-    service{$app_name:
-      ensure   => running,
-      enable   => true,
-      require  => [Class['puppetmaster::server'],Unicorn::Generate[$app_name],Service['puppetmaster']]
+      require           => [Class['puppetmaster::server::config'],Service['puppetmaster']]
     }
 
     @package{'nginx':

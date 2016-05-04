@@ -30,23 +30,10 @@ class foreman(
     rails_env         => $rails_env,
     bundle            => true,
     app_root          => $app_root,
-    app_socket        => $app_socket,
-    pid_file          => $pid_file,
     worker_processes  => $worker_processes,
     backlog           => $backlog,
     timeout           => $timeout,
-    require           => Class['foreman::server']
-  }
-
-  exec{"PUP-5972 workaround $app_name":
-    command  => "systemctl enable $app_name",
-    unless   => "test -f /etc/rc3.d/S01$app_name",
-    require  => [Unicorn::Generate[$app_name],Class['foreman::server'],Service['foreman']],
-  } ->
-  service{$app_name:
-    ensure   => running,
-    enable   => true,
-    require  => [Unicorn::Generate[$app_name],Class['foreman::server'],Service['foreman']]
+    require           => [Class['foreman::server'],Service['foreman']]
   }
 
   realize Package[nginx]
