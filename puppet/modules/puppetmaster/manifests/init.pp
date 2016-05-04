@@ -20,7 +20,7 @@ class puppetmaster(
       worker_processes  => $worker_processes,
       backlog           => $backlog,
       timeout           => $timeout,
-      require           => [Class['puppetmaster::server::config'],Service['puppetmaster']]
+      require           => [Service['puppetmaster']]
     }
 
     @package{'nginx':
