@@ -1,0 +1,9 @@
+# The location to use for storing cached Git repos
+:cachedir: '/etc/puppet/r10k/cache'
+# A list of git repositories to create
+:sources:
+  <% @puppet_envs.each do |k,environment| %>
+  :<%= environment %>:
+    remote: '<%= environment['repo'] %>'
+    basedir: '/etc/puppet/environments'
+  <% end %>
