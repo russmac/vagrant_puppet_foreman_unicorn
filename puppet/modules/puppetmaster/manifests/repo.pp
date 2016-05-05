@@ -1,9 +1,12 @@
-define puppetmaster::repo(
+class puppetmaster::repo(
   $puppet_envs,
-  $branch=$name,
-  $specific_tag=false,
-  $remote=$puppet_envs[$name][remote]
+  $puppet_envs_key,
+  $remote
 ) {
+
+  package{['r10k']:
+    provider => gem,
+  }
 
   file{'/var/lib/puppet/.ssh':
     ensure => directory,
@@ -15,10 +18,10 @@ define puppetmaster::repo(
     ensure => file,
     owner  => puppet,
     group  => puppet,
-    content => $puppet_envs[$name][key],
+    content => $puppet_envs_key,
     mode    => 600,
   } ->
-  exec{"ssh-keyscan $remote > /var/lib/puppet/.ssh/known_hosts":
+  exec{"ssh-keyscan ${remote} >> /var/lib/puppet/.ssh/known_hosts":
     user    => puppet,
     creates => '/var/lib/puppet/.ssh/known_hosts'
   } ->
@@ -26,30 +29,31 @@ define puppetmaster::repo(
     ensure => directory,
     owner  => puppet,
     group  => puppet,
-    mode   => 2755,
+    mode   => 2751,
   } ->
-  exec{'rm -rf /etc/puppet/environments/production':
-    unless => 'test -d /etc/puppet/environments/production/.git'
+  file{["/etc/puppet/r10k","/etc/puppet/r10k/cache"]:
+    ensure => directory,
+    owner  => puppet,
+    group  => puppet,
+    mode   => 2751,
   } ->
-  vcsrepo{"/etc/puppet/environments/$name":
-    user      => puppet,
-    provider  => git,
-    source    => $puppet_envs[$name][repo],
-    revision  => $branch,
+  file{"/etc/r10k.yaml":
+    ensure => file,
+    owner  => puppet,
+    group  => puppet,
+    mode   => '0641',
+    content => template('puppetmaster/etc/r10k.yaml.erb')
+  } ~>
+  exec{"Build environments with r10k":
+    command     => '/usr/local/bin/r10k deploy environment -p',
+    user        => puppet,
+    #refreshonly => true,
   }
 
-  if $specific_tag == false {
-    cron { "$branch git pull":
-      command => "cd /etc/puppet/environments/$branch && git reset HEAD --hard && git fetch && git pull",
-      user    => puppet,
-      minute  => '*/1'
-    }
-  } else {
-    cron { "$branch checkout $specific_tag":
-      command => "cd /etc/puppet/environments/$branch && git reset HEAD --hard && git fetch && git checkout $specific_tag",
-      user    => puppet,
-      minute  => '*/1'
-    }
+  cron { "Run r10k":
+    command => "/usr/local/bin/r10k deploy environment -p",
+    user    => puppet,
+    minute  => '*/1'
   }
 
 }

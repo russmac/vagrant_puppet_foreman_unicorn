@@ -9,7 +9,7 @@ Your checked out repo is responsible for the first agent runs, use '<%= hostname
 Foreman puppet smart-proxy enabled features:
  - puppetca
 
-1. Run install_dependencies.sh to use `puppet module install` to install the three require puppetlabs modules and their dependencies
+1. Use librarian-puppet install from the puppet/ directory 
 
 2. Configure hieradata/common.yaml to your settings
 

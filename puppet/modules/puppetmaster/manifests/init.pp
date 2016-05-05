@@ -3,6 +3,8 @@ class puppetmaster(
     $backlog=hiera('puppetmaster::backlog'),
     $timeout=hiera('puppetmaster::timeout'),
     $puppet_envs=hiera('puppetmaster::puppet_envs'),
+    $puppet_envs_key=hiera('puppetmaster::puppet_envs::key'),
+    $remote=hiera('puppetmaster::puppet_envs::remote'),
   ) inherits puppetmaster::params {
     require apt
     require unicorn
@@ -11,7 +13,9 @@ class puppetmaster(
       app_root              => $app_root,
       app_socket            => $app_socket,
       puppet_envs           => $puppet_envs,
+      puppet_envs_key       => $puppet_envs_key,
       puppetmaster_packages => $puppetmaster_packages,
+      remote                => $remote
     }
 
     unicorn::generate{  $app_name:
@@ -51,6 +55,6 @@ class puppetmaster(
       refreshonly => true,
       require     => [Service['puppet'],Service['nginx']]
     }
-    # We sleep 10 because of the startup delay , Master starts after this resource executes in system log.
+    # We sleep 60 because of the startup delay , Master starts after this resource executes in system log.
 
 }

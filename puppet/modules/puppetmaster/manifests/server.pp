@@ -2,7 +2,9 @@ class puppetmaster::server(
   $app_root,
   $app_socket,
   $puppet_envs,
-  $puppetmaster_packages
+  $puppet_envs_key,
+  $puppetmaster_packages,
+  $remote,
 ) {
  require puppetmaster::apt
 
@@ -29,10 +31,10 @@ class puppetmaster::server(
     require => Package['puppetmaster'],
   }
 
-  $puppet_envs_keys=keys($puppet_envs)
-
-  puppetmaster::repo{ $puppet_envs_keys:
-    puppet_envs => $puppet_envs,
+  class{"puppetmaster::repo":
+    puppet_envs     => $puppet_envs,
+    puppet_envs_key => $puppet_envs_key,
+    remote          => $remote
   }
 
 }
