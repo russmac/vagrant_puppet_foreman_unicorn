@@ -1,3 +1,6 @@
+# DEPRECATED
+Untested in over 8 months
+
 ## Puppet 3.x & Foreman served efficiently by Nginx & Unicorn. 
 
 Clones your repo and immediately serves the manifests on bootstrapping running against itself as an agent.
